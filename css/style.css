@@ -1,0 +1,754 @@
+/* ===================================
+   CSS Variables & Root Setup
+   =================================== */
+:root {
+  /* Color Palette - Light Mode */
+  --color-bg: #f5f7fa;
+  --color-card-bg: #ffffff;
+  --color-primary: #4a90d9;
+  --color-primary-hover: #357abd;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-danger-hover: #c82333;
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-muted: #adb5bd;
+  --color-border: #dee2e6;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-settings-bg: #ffffff;
+  --color-settings-overlay: rgba(0, 0, 0, 0.3);
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 3rem;
+
+  /* Borders & Shadows */
+  --border-radius: 8px;
+  --border-radius-sm: 4px;
+  --border-radius-lg: 12px;
+  --box-shadow: 0 2px 8px var(--color-shadow);
+  --box-shadow-hover: 0 4px 16px var(--color-shadow);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --color-bg: #1a1d23;
+  --color-card-bg: #252830;
+  --color-primary: #5ba3e8;
+  --color-primary-hover: #4a90d9;
+  --color-secondary: #8a9bb0;
+  --color-success: #34c759;
+  --color-danger: #ff453a;
+  --color-danger-hover: #e03530;
+  --color-text-primary: #e8eaf0;
+  --color-text-secondary: #9aa5b4;
+  --color-text-muted: #5a6478;
+  --color-border: #363a45;
+  --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-settings-bg: #2c2f3a;
+  --color-settings-overlay: rgba(0, 0, 0, 0.6);
+}
+
+/* ===================================
+   Base Layout Styles
+   =================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding: var(--spacing-md);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.dashboard {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding-top: var(--spacing-xl);
+}
+
+/* ===================================
+   Settings Toggle Button
+   =================================== */
+.settings-toggle {
+  position: fixed;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-card-bg);
+  box-shadow: var(--box-shadow);
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow var(--transition-fast), background-color var(--transition-normal);
+}
+
+.settings-toggle:hover {
+  box-shadow: var(--box-shadow-hover);
+}
+
+/* ===================================
+   Settings Panel
+   =================================== */
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: var(--color-settings-bg);
+  box-shadow: -4px 0 20px var(--color-shadow);
+  z-index: 200;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  transition: background-color var(--transition-normal);
+  overflow-y: auto;
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-header h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.settings-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.settings-close:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-border);
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.settings-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.settings-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-fast), background-color var(--transition-normal);
+  width: 100%;
+}
+
+.settings-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Toggle Switch */
+.toggle-btn {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  border-radius: 13px;
+  border: none;
+  background-color: var(--color-border);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  align-self: flex-start;
+}
+
+.toggle-btn[aria-checked="true"] {
+  background-color: var(--color-primary);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform var(--transition-fast);
+  pointer-events: none;
+}
+
+.toggle-btn[aria-checked="true"] .toggle-thumb {
+  transform: translateX(22px);
+}
+
+/* ===================================
+   Component Container Styles
+   =================================== */
+.clock-container,
+.timer-container,
+.links-container,
+.todo-container {
+  background-color: var(--color-card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--box-shadow);
+  transition: box-shadow var(--transition-normal), background-color var(--transition-normal);
+}
+
+.clock-container:hover,
+.timer-container:hover,
+.links-container:hover,
+.todo-container:hover {
+  box-shadow: var(--box-shadow-hover);
+}
+
+/* ===================================
+   Clock Component Styles
+   =================================== */
+.clock-container {
+  text-align: center;
+}
+
+.clock-container h1 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+#time {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-xs);
+}
+
+#date {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+}
+
+/* ===================================
+   Timer Component Styles
+   =================================== */
+.timer-container {
+  text-align: center;
+}
+
+#timer-display {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-xs);
+}
+
+#timer-state {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-md);
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.timer-controls button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+#start-btn {
+  background-color: var(--color-success);
+  color: white;
+}
+
+#start-btn:hover {
+  filter: brightness(1.1);
+}
+
+#pause-btn {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+#pause-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+#reset-btn {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+#reset-btn:hover {
+  filter: brightness(1.1);
+}
+
+/* ===================================
+   Quick Links Component Styles
+   =================================== */
+.links-container h2,
+.todo-container h2 {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.links-input-group,
+.todo-input-group {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.links-input-group input,
+.todo-input-group input {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-fast), background-color var(--transition-normal);
+}
+
+.links-input-group input:focus,
+.todo-input-group input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.links-input-group button,
+.todo-input-group button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.links-input-group button:hover,
+.todo-input-group button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.links-grid a {
+  display: block;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  text-decoration: none;
+  text-align: center;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-border);
+}
+
+.links-grid a:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.link-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.link-item .link-btn {
+  flex: 1;
+  padding-right: var(--spacing-xl);
+}
+
+.link-delete-btn {
+  position: absolute;
+  right: var(--spacing-xs);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1;
+  background-color: var(--color-danger);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-item:hover .link-delete-btn {
+  opacity: 1;
+}
+
+/* ===================================
+   To-Do List Component Styles
+   =================================== */
+.todo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-md);
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.todo-sort select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background-color var(--transition-normal);
+}
+
+.todo-sort select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+#todo-list {
+  list-style: none;
+}
+
+#todo-list li {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--transition-fast);
+}
+
+#todo-list li:last-child {
+  border-bottom: none;
+}
+
+#todo-list li:hover {
+  background-color: var(--color-bg);
+}
+
+#todo-list li.completed {
+  opacity: 0.6;
+}
+
+#todo-list li.completed .task-text {
+  text-decoration: line-through;
+}
+
+#todo-list input[type="checkbox"] {
+  margin-right: var(--spacing-md);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-success);
+  flex-shrink: 0;
+}
+
+.task-text {
+  flex: 1;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  transition: background-color var(--transition-fast);
+  background: transparent;
+  border: none;
+  font-family: var(--font-family);
+}
+
+.task-text:hover {
+  background-color: var(--color-bg);
+}
+
+.task-text.editing {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-primary);
+  outline: none;
+}
+
+.delete-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  background-color: transparent;
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-left: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.delete-btn:hover {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+@media (max-width: 480px) {
+  #time,
+  #timer-display {
+    font-size: var(--font-size-xl);
+  }
+
+  .links-input-group {
+    flex-wrap: wrap;
+  }
+
+  .links-input-group input {
+    flex: 1 1 100%;
+  }
+
+  .timer-controls {
+    flex-wrap: wrap;
+  }
+
+  .timer-controls button {
+    flex: 1 1 auto;
+  }
+
+  .settings-panel {
+    width: 100%;
+  }
+}
+
+@media (min-width: 320px) {
+  body {
+    padding: var(--spacing-sm);
+  }
+
+  .dashboard {
+    gap: var(--spacing-md);
+  }
+
+  .clock-container,
+  .timer-container,
+  .links-container,
+  .todo-container {
+    padding: var(--spacing-md);
+  }
+
+  #time,
+  #timer-display {
+    font-size: var(--font-size-2xl);
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+
+@media (min-width: 600px) {
+  body {
+    padding: var(--spacing-lg);
+  }
+
+  .dashboard {
+    gap: var(--spacing-lg);
+  }
+
+  .clock-container,
+  .timer-container,
+  .links-container,
+  .todo-container {
+    padding: var(--spacing-xl);
+  }
+
+  #time,
+  #timer-display {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+/* ===================================
+   Utility Classes
+   =================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===================================
+   Notification Toast
+   =================================== */
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.notification {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  min-width: 220px;
+  max-width: 360px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: white;
+  background-color: var(--color-secondary);
+  box-shadow: var(--box-shadow-hover);
+  z-index: 9999;
+  display: none;
+  opacity: 0;
+}
+
+.notification.notification--visible {
+  display: block;
+  animation: slideInUp 200ms ease forwards;
+}
+
+.notification.notification--info {
+  background-color: var(--color-primary);
+}
+
+.notification.notification--success {
+  background-color: var(--color-success);
+}
+
+.notification.notification--error {
+  background-color: var(--color-danger);
+}
+
+/* ===================================
+   Focus & Active States (Accessibility)
+   =================================== */
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.timer-controls button:active,
+.links-input-group button:active,
+.todo-input-group button:active,
+.delete-btn:active {
+  transform: scale(0.97);
+}
+
+.link-delete-btn:active {
+  transform: translateY(-50%) scale(0.9);
+}
